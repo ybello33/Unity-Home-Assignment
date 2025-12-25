@@ -1,0 +1,56 @@
+# Frontend Deployment
+# Assignment UUID: e271b052-9200-4502-b491-62f1649c07
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+    assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+      assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+  template:
+    metadata:
+      labels:
+        app: frontend
+        assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+    spec:
+      containers:
+      - name: frontend
+        image: frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://customer-facing-server-service:3000"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      restartPolicy: Always
+

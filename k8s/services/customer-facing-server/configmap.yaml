@@ -1,0 +1,13 @@
+# Customer Facing Web Server ConfigMap
+# Assignment UUID: e271b052-9200-4502-b491-62f1649c07
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-facing-server-config
+  labels:
+    app: customer-facing-server
+    assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+data:
+  kafka-brokers: "kafka-service:9092"
+  kafka-topic: "purchases"
+

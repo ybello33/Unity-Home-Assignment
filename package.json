@@ -1,0 +1,26 @@
+{
+  "name": "devops-assignment",
+  "version": "1.0.0",
+  "description": "Production DevOps Engineer Home Assignment - E-commerce Purchase System",
+  "private": true,
+  "workspaces": [
+    "services/customer-management-api",
+    "services/customer-facing-server",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install --workspaces",
+    "build:all": "npm run build --workspaces",
+    "test:all": "npm run test --workspaces"
+  },
+  "keywords": [
+    "devops",
+    "kubernetes",
+    "microservices",
+    "kafka",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+

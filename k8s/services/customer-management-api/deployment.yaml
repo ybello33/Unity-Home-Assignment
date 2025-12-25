@@ -1,0 +1,79 @@
+# Customer Management API Deployment
+# Assignment UUID: e271b052-9200-4502-b491-62f1649c07
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-management-api
+  labels:
+    app: customer-management-api
+    assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customer-management-api
+      assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+  template:
+    metadata:
+      labels:
+        app: customer-management-api
+        assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+    spec:
+      containers:
+      - name: customer-management-api
+        image: customer-management-api:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3001
+          name: http
+        env:
+        - name: PORT
+          value: "3001"
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: customer-management-api-config
+              key: mongodb-uri
+        - name: KAFKA_BROKERS
+          valueFrom:
+            configMapKeyRef:
+              name: customer-management-api-config
+              key: kafka-brokers
+        - name: KAFKA_TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: customer-management-api-config
+              key: kafka-topic
+        - name: KAFKA_GROUP_ID
+          value: "customer-management-api-group"
+        - name: KAFKA_CLIENT_ID
+          value: "customer-management-api"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 3001
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      restartPolicy: Always
+

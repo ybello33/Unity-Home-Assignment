@@ -1,0 +1,15 @@
+# Kustomization file for infrastructure
+# Assignment UUID: e271b052-9200-4502-b491-62f1649c07
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - mongodb/deployment.yaml
+  - mongodb/service.yaml
+  - mongodb/pvc.yaml
+  - kafka/deployment.yaml
+  - kafka/service.yaml
+
+commonLabels:
+  assignment-uuid: e271b052-9200-4502-b491-62f1649c07
+
