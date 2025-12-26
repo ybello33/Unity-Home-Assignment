@@ -26,9 +26,8 @@ spec:
         ports:
         - containerPort: 80
           name: http
-        env:
-        - name: REACT_APP_API_URL
-          value: "http://customer-facing-server-service:3000"
+        # Note: REACT_APP_API_URL must be set at build time via Docker ARG
+        # The default in Dockerfile is http://customer-facing-server-service:3000
         resources:
           requests:
             memory: "128Mi"

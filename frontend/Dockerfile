@@ -6,6 +6,10 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# Build argument for API URL (React apps need env vars at build time)
+ARG REACT_APP_API_URL=http://customer-facing-server-service:3000
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Copy package files
 COPY package*.json ./
 

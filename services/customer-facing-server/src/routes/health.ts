@@ -20,10 +20,9 @@ const router = Router();
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-      // Check Kafka producer connection
-      const producer = getProducer();
-      const producer = getProducer();
-      const isKafkaConnected = producer !== null;
+    // Check Kafka producer connection
+    const producer = getProducer();
+    const isKafkaConnected = producer !== null;
 
     const health = {
       status: isKafkaConnected ? 'healthy' : 'unhealthy',
@@ -77,6 +76,7 @@ router.get('/live', (req: Request, res: Response) => {
  */
 router.get('/ready', async (req: Request, res: Response) => {
   try {
+    const producer = getProducer();
     const isKafkaConnected = producer !== null;
 
     if (isKafkaConnected) {
