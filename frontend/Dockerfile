@@ -13,8 +13,8 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (npm install works with or without package-lock.json)
+RUN npm install
 
 # Copy source code
 COPY . .
